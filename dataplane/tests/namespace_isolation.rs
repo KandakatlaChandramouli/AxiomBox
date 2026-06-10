@@ -2,9 +2,5 @@ use dataplane::sandbox::namespace::NamespaceGuard;
 
 #[test]
 fn namespace_creation_works() {
-    if std::env::var("CI").is_ok() {
-        return;
-    }
-
     let _ns = NamespaceGuard::new().unwrap();
 }
