@@ -4,3 +4,4 @@ pub mod cgroup_limits;
 pub mod cleanup;
 pub mod error;
 pub mod namespace;
+pub mod resource_limits;
