@@ -9,17 +9,10 @@ pub struct CgroupGuard {
 
 impl CgroupGuard {
     pub fn new(name: &str) -> Result<Self> {
-        let path =
-            Path::new("/sys/fs/cgroup")
-                .join(name);
+        let path = Path::new("/sys/fs/cgroup").join(name);
 
         fs::create_dir(&path)
-            .with_context(|| {
-                format!(
-                    "failed creating cgroup {}",
-                    path.display()
-                )
-            })?;
+            .with_context(|| format!("failed creating cgroup {}", path.display()))?;
 
         Ok(Self { path })
     }
@@ -31,7 +24,6 @@ impl CgroupGuard {
 
 impl Drop for CgroupGuard {
     fn drop(&mut self) {
-        let _ =
-            fs::remove_dir(&self.path);
+        let _ = fs::remove_dir(&self.path);
     }
 }
