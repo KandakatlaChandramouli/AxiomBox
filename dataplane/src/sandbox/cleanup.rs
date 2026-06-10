@@ -7,6 +7,12 @@ pub struct CleanupManager {
     handlers: Arc<Mutex<Vec<CleanupFn>>>,
 }
 
+impl Default for CleanupManager {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl CleanupManager {
     pub fn new() -> Self {
         Self {
