@@ -1,22 +1,19 @@
+use nix::errno::Errno;
 use nix::sched::{CloneFlags, unshare};
 
-pub struct NamespaceGuard {
-    enabled: bool,
-}
+pub struct NamespaceGuard;
 
 impl NamespaceGuard {
-    pub fn new() -> Result<Self, std::io::Error> {
-        match unshare(CloneFlags::CLONE_NEWNS | CloneFlags::CLONE_NEWUTS | CloneFlags::CLONE_NEWIPC)
-        {
-            Ok(_) => Ok(Self { enabled: true }),
+    pub fn new() -> Result<Self, nix::Error> {
+        match unshare(CloneFlags::CLONE_NEWNS | CloneFlags::CLONE_NEWUTS) {
+            Ok(_) => Ok(Self),
 
-            Err(nix::errno::Errno::EPERM) => Ok(Self { enabled: false }),
+            Err(Errno::EPERM) => {
+                eprintln!("namespace isolation unavailable");
+                Ok(Self)
+            }
 
-            Err(e) => Err(std::io::Error::other(e)),
+            Err(e) => Err(e),
         }
-    }
-
-    pub fn enabled(&self) -> bool {
-        self.enabled
     }
 }
