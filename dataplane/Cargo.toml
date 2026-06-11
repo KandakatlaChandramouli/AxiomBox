@@ -15,3 +15,7 @@ libc = "0.2"
 nix = { version = "0.30", features = ["sched", "process", "mount", "fs", "user", "signal"] }
 prometheus = "0.14.0"
 sysinfo = "0.39.3"
+axum = "0.8.9"
+tokio = { version = "1.52.3", features = ["full"] }
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.150"
