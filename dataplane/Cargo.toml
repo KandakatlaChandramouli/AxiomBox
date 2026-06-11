@@ -15,3 +15,4 @@ libc = "0.2"
 nix = { version = "0.30", features = ["sched", "process", "mount", "fs", "user", "signal"] }
 prometheus = "0.14.0"
 sysinfo = "0.39.3"
+serde = { version = "1.0.228", features = ["derive"] }
