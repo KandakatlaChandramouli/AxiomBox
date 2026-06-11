@@ -13,3 +13,4 @@ tracing-subscriber = "0.3"
 libc = "0.2"
 
 nix = { version = "0.30", features = ["sched", "process", "mount", "fs", "user", "signal"] }
+uuid = { version = "1.23.3", features = ["v4"] }
