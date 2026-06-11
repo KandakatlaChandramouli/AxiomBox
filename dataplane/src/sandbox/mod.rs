@@ -4,4 +4,5 @@ pub mod cleanup;
 pub mod error;
 pub mod namespace;
 
+pub mod chroot;
 pub mod rootfs;
