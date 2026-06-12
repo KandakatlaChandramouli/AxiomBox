@@ -18,3 +18,5 @@ sysinfo = "0.39.3"
 tonic = "0.14.6"
 tokio = { version = "1.52.3", features = ["full"] }
 serde = { version = "1.0.228", features = ["derive"] }
+prost = "0.14.4"
+bincode = "3.0.0"
