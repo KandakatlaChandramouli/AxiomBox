@@ -1,0 +1,10 @@
+{
+  "ociVersion": "1.0.2",
+  "process": {
+    "terminal": true,
+    "args": [
+      "/bin/sh"
+    ],
+    "cwd": "/"
+  }
+}
