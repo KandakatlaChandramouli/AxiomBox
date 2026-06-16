@@ -1,9 +1,9 @@
 use clap::{Parser, Subcommand};
+use serde::{Deserialize, Serialize};
+use std::fs;
 
 #[derive(Parser)]
 #[command(name = "axiombox")]
-#[command(version = "0.1.0")]
-#[command(about = "AxiomBox OCI Runtime")]
 struct Cli {
     #[command(subcommand)]
     command: Commands,
@@ -11,26 +11,14 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Commands {
-    Create {
-        id: String,
-    },
+    Create { id: String },
+    State { id: String },
+}
 
-    Start {
-        id: String,
-    },
-
-    State {
-        id: String,
-    },
-
-    Delete {
-        id: String,
-    },
-
-    Run {
-        id: String,
-        bundle: String,
-    },
+#[derive(Serialize, Deserialize)]
+struct ContainerState {
+    id: String,
+    status: String,
 }
 
 fn main() {
@@ -38,23 +26,35 @@ fn main() {
 
     match cli.command {
         Commands::Create { id } => {
-            println!("CREATE {}", id);
-        }
+            let state = ContainerState {
+                id: id.clone(),
+                status: "created".to_string(),
+            };
 
-        Commands::Start { id } => {
-            println!("START {}", id);
+            let path = format!(
+                "runtime/containers/{}.json",
+                id
+            );
+
+            fs::write(
+                path,
+                serde_json::to_string_pretty(&state).unwrap(),
+            )
+            .unwrap();
+
+            println!("container created");
         }
 
         Commands::State { id } => {
-            println!("STATE {}", id);
-        }
+            let path = format!(
+                "runtime/containers/{}.json",
+                id
+            );
 
-        Commands::Delete { id } => {
-            println!("DELETE {}", id);
-        }
+            let data =
+                fs::read_to_string(path).unwrap();
 
-        Commands::Run { id, bundle } => {
-            println!("RUN {} {}", id, bundle);
+            println!("{}", data);
         }
     }
 }
